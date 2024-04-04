@@ -1,0 +1,72 @@
+{% extends "base.html"%}
+
+{% block start %}
+<div id="app" class="container mt-5 pt-5">
+    <h1 class="text-center">Greet Tech </h1>
+    <h4>Search/Sort Hotel By Price :- </h4>
+    <br>
+    <div class="row">
+        <div class="col-md-4">
+            <label for=""><strong>Sort By</strong></label>
+            <select class="form-control" v-model="selectedSort" @change="sortBy">
+                <option value="asc">ASC</option>
+                <option value="dsc">DSC</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label for="customRange3" class="form-label"><strong>Select Price</strong></label>
+            <input type="range" class="form-range" @change="priceChange($event)" min="1000" max="10000" step="100"
+                id="customRange3">
+        </div>
+    </div>
+    <div class="row mt-5 pt-5">
+        <div class="col-md-4" v-for="hotel in hotels">
+            <div class="card shadow-lg" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">[[hotel.name]]</h5>
+                    <p class="card-text">[[(hotel.description).substr(0, 30)]]</p>
+                    <a href="#" class="btn btn-primary">Rs. [[hotel.price]]</a>
+                </div>
+
+            </div>
+            <br>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app = new Vue({
+        delimiters: ['[[', ']]'],
+        el: '#app',
+        data: {
+            message: 'Hello Django Hotel App!',
+            hotels: [],
+            selectedSort: 'asc', // Default sorting option
+        },
+        methods: {
+            getGFG(sort = '', amount = '') {
+                console.log(sort, amount);
+                fetch(`/api/get_GFG/?sort_by=${sort}&amount=${amount}`)
+                    .then(response => response.json())
+                    .then(result => {
+                        console.log(result);
+                        this.hotels = result;
+                    });
+            },
+            sortBy(e) {
+                this.getGFG(sort = this.selectedSort);
+            },
+            priceChange(e) {
+                this.getGFG(' ', amount = e.target.value, ' ');
+            },
+
+        },
+        created() {
+            this.getGFG();
+            console.log("Page loaded");
+        }
+    });
+</script>
+{% endblock %}
