@@ -48,7 +48,7 @@
         methods: {
             getGFG(sort = '', amount = '') {
                 console.log(sort, amount);
-                fetch(`/api/get_GFG/?sort_by=${sort}&amount=${amount}`)
+                fetch(`/api/get_Hotel/?sort_by=${sort}&amount=${amount}`)
                     .then(response => response.json())
                     .then(result => {
                         console.log(result);

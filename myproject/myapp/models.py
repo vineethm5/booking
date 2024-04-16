@@ -8,3 +8,7 @@ class booking(models.Model):
     description=models.TextField(max_length=100)
     entered_on=models.DateTimeField(auto_now_add=True)
     updated_on=models.DateTimeField(auto_now=True)
+
+
+def __str__(self)->str:
+    return self.hname
